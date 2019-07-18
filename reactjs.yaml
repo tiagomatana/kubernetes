@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sonarqube.yaml-lojasrenner
+  labels:
+    zone: dev
+    version: v1
+spec:
+  containers:
+  - name: sonarqube.yaml-lojasrenner
+    image: meta/sonarqube.yaml-lojasrenner
+    ports:
+      containerPort: 80
+
+

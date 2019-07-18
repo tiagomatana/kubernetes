@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sonarqube-lojasrenner
+spec:
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+        - image: postgres:12-alpine
+          name: sonar-postgres-lojasrenner
+          env:
+            - name: POSTGRES_PASSWORD
+              value: sonar
+            - name: POSTGRES_USER
+              value: sonar
+          ports:
+            - containerPort: 5432
+              name: postgresport
+    #      volumeMounts:
+    #          mountPath: /var/lib/postgresql/data
+#          resources:
+#            limits:
+#              cpu    : "0.5"
+#              memory : "512Mi"
+#            requests:
+#              cpu    : "250m"
+#              memory : "50Mi"
+        - image:  sonarqube:7.1-alpine
+          name:  sonarqube
+          ports:
+            - containerPort: 9000
+          env:
+            - name: SONARQUBE_JDBC_USERNAME
+              value: sonar
+            - name: SONARQUBE_JDBC_PASSWORD
+              value: sonar
+            - name: SONARQUBE_JDBC_URL
+              value: jdbc:postgresql://sonar-postgres-lojasrenner/sonar
+
